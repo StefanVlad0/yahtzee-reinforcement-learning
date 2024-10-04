@@ -11,3 +11,6 @@ BLUE = (0, 128, 255)
 # Dice settings
 DICE_SIZE = 50
 SPACING = 75
+
+# Button
+BUTTON_COLOR = (0, 128, 255)

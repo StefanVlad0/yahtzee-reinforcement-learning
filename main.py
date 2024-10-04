@@ -14,11 +14,13 @@ dice_values = [roll_dice() for _ in range(5)]
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]
 clock = pygame.time.Clock()
 
+roll_button = pygame.Rect(settings.WIDTH // 2 - 100, settings.HEIGHT - 100, 200, 50)
+
 running = True
 while running:
-    running, dice_values = handle_events(dice_values)
+    running, dice_values = handle_events(dice_values, roll_button)
 
-    draw_screen(screen, dice_values, dice_images)
+    draw_screen(screen, dice_values, dice_images, roll_button)
 
     pygame.display.flip()
     clock.tick(60)
