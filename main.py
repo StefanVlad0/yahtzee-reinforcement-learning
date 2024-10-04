@@ -18,9 +18,9 @@ roll_button = pygame.Rect(settings.WIDTH // 2 - 100, settings.HEIGHT - 100, 200,
 
 running = True
 while running:
-    running, dice_values = handle_events(dice_values, roll_button)
+    running, dice_values, hover_button = handle_events(dice_values, roll_button)
 
-    draw_screen(screen, dice_values, dice_images, roll_button)
+    draw_screen(screen, dice_values, dice_images, roll_button, hover_button)
 
     pygame.display.flip()
     clock.tick(60)
