@@ -2,10 +2,9 @@ import pygame
 from dice_module import roll_dice
 
 
-def handle_events(dice_values, roll_button):
+def handle_events(dice_values, roll_button, clicked_button):
     running = True
     mouse_pos = pygame.mouse.get_pos()
-
     hover_button = roll_button.collidepoint(mouse_pos)
 
     if hover_button:
@@ -22,6 +21,10 @@ def handle_events(dice_values, roll_button):
             if event.key == pygame.K_ESCAPE:
                 running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if roll_button.collidepoint(event.pos):  # Verifică dacă click-ul a fost pe buton
+            if roll_button.collidepoint(event.pos):
+                clicked_button = True  # Setăm flag-ul de click la True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            clicked_button = False
+            if roll_button.collidepoint(event.pos):
                 dice_values = [roll_dice() for _ in range(5)]
-    return running, dice_values, hover_button
+    return running, dice_values, hover_button, clicked_button
