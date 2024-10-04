@@ -1,13 +1,19 @@
 import pygame
-import settings  
+import settings
 
-def draw_dice(screen, value, x, y):
-    pygame.draw.rect(screen, settings.BLUE, pygame.Rect(x, y, settings.DICE_SIZE, settings.DICE_SIZE), border_radius=10)
-    font = pygame.font.Font(None, 74)
-    text = font.render(str(value), True, settings.BLACK)
-    screen.blit(text, (x + settings.DICE_SIZE // 3, y + settings.DICE_SIZE // 4))
 
-def draw_screen(screen, background_color, dice_positions, dice_values):
-    screen.fill(background_color)  # Clear screen
-    for i, pos in enumerate(dice_positions):
-        draw_dice(screen, dice_values[i], pos[0], pos[1])
+def draw_screen(screen, values, dice_images):
+    screen.fill(settings.WHITE)
+    draw_dice(screen, values, dice_images)
+
+
+def draw_dice(screen, values, dice_images):
+    x_start = (settings.WIDTH - (5 * settings.DICE_SIZE + 4 * settings.SPACING)) // 2
+    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2
+
+    for i, value in enumerate(values):
+        # Calculăm poziția fiecărui zar
+        dice_rect = pygame.Rect(x_start + i * (settings.DICE_SIZE + settings.SPACING), y_start, settings.DICE_SIZE, settings.DICE_SIZE)
+
+        # Desenăm imaginea zarului corespunzător
+        screen.blit(dice_images[value - 1], dice_rect.topleft)  # `value - 1` deoarece imaginile sunt indexate de la 0
