@@ -4,6 +4,13 @@ from dice_module import roll_dice
 
 def handle_events(dice_values, roll_button):
     running = True
+    mouse_pos = pygame.mouse.get_pos()
+
+    if roll_button.collidepoint(mouse_pos):
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)  # Setăm cursorul la "mână" dacă este peste buton
+    else:
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False

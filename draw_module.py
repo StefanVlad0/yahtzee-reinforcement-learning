@@ -3,7 +3,7 @@ import settings
 
 
 def draw_screen(screen, values, dice_images, roll_button):
-    screen.fill(settings.WHITE)
+    screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button)
 
@@ -22,7 +22,7 @@ def draw_dice(screen, values, dice_images):
 
 def draw_button(screen, button_rect):
     pygame.draw.rect(screen, settings.BUTTON_COLOR, button_rect)
-    font = pygame.font.Font(None, 36)  # Font pentru text
+    font = pygame.font.SysFont('arial', 30)
     text = font.render("Roll Dice", True, settings.BLACK)
     text_rect = text.get_rect(center=button_rect.center)
     screen.blit(text, text_rect)
