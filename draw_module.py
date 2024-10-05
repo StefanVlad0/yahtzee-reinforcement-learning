@@ -75,9 +75,9 @@ def draw_score_table(screen):
     table_height = 680
     cell_height = 40
     x_start = settings.WIDTH - table_width - 20
-    y_start = 50
+    y_start = settings.HEIGHT // 2 - table_height // 2
 
-    pygame.draw.rect(screen, settings.WHITE, (x_start, y_start, table_width, table_height))  # White background
+    pygame.draw.rect(screen, settings.WHITE, (x_start - 10, y_start - 10, table_width + 20, table_height + 20))  # White background
 
     font = pygame.font.SysFont('arial', 24)
 
@@ -101,3 +101,13 @@ def draw_score_table(screen):
         # Text pentru coloanele "You" și "AI"
         column_text = font.render(label, True, settings.BLACK)
         screen.blit(column_text, (x_start + 10 + (j + 1) * (table_width // 3), y_start + 10))
+
+    # delimiter lines
+    pygame.draw.line(screen, settings.BLACK, (x_start, y_start + 7 * cell_height), (x_start + table_width, y_start + 7 * cell_height), 5)
+    pygame.draw.line(screen, settings.BLACK, (x_start, y_start + 9 * cell_height), (x_start + table_width, y_start + 9 * cell_height), 5)
+    pygame.draw.line(screen, settings.BLACK, (x_start, y_start + 16 * cell_height), (x_start + table_width, y_start + 16 * cell_height), 5)
+
+    # outlines
+    pygame.draw.line(screen, settings.BLACK, (x_start, y_start + 0 * cell_height), (x_start + table_width, y_start + 0 * cell_height), 2)
+    pygame.draw.line(screen, settings.BLACK, (x_start + 0 * (table_width // 3), y_start), (x_start + 0 * (table_width // 3), y_start + table_height), 2)
+    pygame.draw.line(screen, settings.BLACK, (x_start + 3 * (table_width // 3), y_start), (x_start + 3 * (table_width // 3), y_start + table_height), 2)
