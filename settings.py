@@ -1,7 +1,7 @@
 # settings.py
 
 # Screen dimensions
-WIDTH, HEIGHT = 1000, 1000
+WIDTH, HEIGHT = 1600, 1000
 
 # Colors
 WHITE = (255, 255, 255)

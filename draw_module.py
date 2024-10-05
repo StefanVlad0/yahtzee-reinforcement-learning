@@ -7,6 +7,7 @@ def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button, hover_button, clicked_button)
     draw_selected_dices(screen, selected_dices, dice_images)
+    draw_score_table(screen)
 
 
 def draw_dice(screen, values, dice_images):
@@ -67,3 +68,36 @@ def create_selected_dice_rects(selected_dices):
         selected_dice_rects.append(dice_rect)
 
     return selected_dice_rects
+
+
+def draw_score_table(screen):
+    table_width = 450
+    table_height = 680
+    cell_height = 40
+    x_start = settings.WIDTH - table_width - 20
+    y_start = 50
+
+    pygame.draw.rect(screen, settings.WHITE, (x_start, y_start, table_width, table_height))  # White background
+
+    font = pygame.font.SysFont('arial', 24)
+
+    categories = [
+        "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",
+        "Three of a kind", "Four of a kind", "Full House", "Small straight",
+        "Large straight", "Chance", "YAHTZEE", "TOTAL SCORE"
+    ]
+
+    for i, category in enumerate(categories):
+        # break line
+        pygame.draw.line(screen, settings.BLACK, (x_start, y_start + (i + 1) * cell_height), (x_start + table_width, y_start + (i + 1) * cell_height), 2)
+
+        text = font.render(category, True, settings.BLACK)
+        screen.blit(text, (x_start + 10, y_start + i * cell_height + 10))
+
+    column_labels = ["You", "AI"]
+    for j, label in enumerate(column_labels):
+        pygame.draw.line(screen, settings.BLACK, (x_start + (j + 1) * (table_width // 3), y_start), (x_start + (j + 1) * (table_width // 3), y_start + table_height), 2)
+
+        # Text pentru coloanele "You" și "AI"
+        column_text = font.render(label, True, settings.BLACK)
+        screen.blit(column_text, (x_start + 10 + (j + 1) * (table_width // 3), y_start + 10))
