@@ -18,7 +18,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices):
             running = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                dice_values = [roll_dice() for _ in range(5)]
+                dice_values = [roll_dice() for _ in range(5 - len(selected_dices))]
             if event.key == pygame.K_ESCAPE:
                 running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
