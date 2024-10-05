@@ -2,12 +2,13 @@ import pygame
 import settings
 
 
-def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled):
+def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message):
     screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button, hover_button, clicked_button, button_disabled)
     draw_selected_dices(screen, selected_dices, dice_images)
     draw_score_table(screen)
+    draw_info(screen, message)
 
 
 def draw_dice(screen, values, dice_images):
@@ -113,3 +114,15 @@ def draw_score_table(screen):
     pygame.draw.line(screen, settings.BLACK, (x_start, y_start + 0 * cell_height), (x_start + table_width, y_start + 0 * cell_height), 2)
     pygame.draw.line(screen, settings.BLACK, (x_start + 0 * (table_width // 3), y_start), (x_start + 0 * (table_width // 3), y_start + table_height), 2)
     pygame.draw.line(screen, settings.BLACK, (x_start + 3 * (table_width // 3), y_start), (x_start + 3 * (table_width // 3), y_start + table_height), 2)
+
+
+def draw_info(screen, message):
+    x_start = settings.WIDTH // 2 - settings.INFO_WIDTH // 2
+    y_start = settings.HEIGHT // 2 - settings.INFO_HEIGHT // 2 - 125
+
+    pygame.draw.rect(screen, settings.YELLOW, (x_start, y_start, settings.INFO_WIDTH, settings.INFO_HEIGHT))
+
+    font = pygame.font.SysFont('arial', 24)
+    message_text = font.render(message.value, True, settings.BLACK)
+
+    screen.blit(message_text, (x_start + 10, y_start + 10))
