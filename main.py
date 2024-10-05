@@ -19,7 +19,7 @@ clicked_button = False
 
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button = handle_events(dice_values, roll_button, clicked_button)
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values = handle_events(dice_values, roll_button, clicked_button, selected_dices)
 
     draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices)
 

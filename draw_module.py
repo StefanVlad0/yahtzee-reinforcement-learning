@@ -43,3 +43,27 @@ def draw_button(screen, button_rect, hover_button, clicked_button):
     text = font.render("Roll Dice", True, settings.BLACK)
     text_rect = text.get_rect(center=button_rect.center)
     screen.blit(text, text_rect)
+
+
+def create_dice_rects(dice_values):
+    dice_rects = []
+    x_start = (settings.WIDTH - (5 * settings.DICE_SIZE + 4 * settings.SPACING)) // 2
+    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2
+
+    for i, _ in enumerate(dice_values):
+        dice_rect = pygame.Rect(x_start + i * (settings.DICE_SIZE + settings.SPACING), y_start, settings.DICE_SIZE, settings.DICE_SIZE)
+        dice_rects.append(dice_rect)
+
+    return dice_rects
+
+
+def create_selected_dice_rects(selected_dices):
+    selected_dice_rects = []
+    x_start = (settings.WIDTH - (5 * settings.DICE_SIZE + 4 * settings.SPACING)) // 2
+    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2 + 350
+
+    for i, _ in enumerate(selected_dices):
+        dice_rect = pygame.Rect(x_start + i * (settings.DICE_SIZE + settings.SPACING), y_start, settings.DICE_SIZE, settings.DICE_SIZE)
+        selected_dice_rects.append(dice_rect)
+
+    return selected_dice_rects
