@@ -2,10 +2,10 @@ import pygame
 import settings
 
 
-def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices):
+def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled):
     screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
-    draw_button(screen, roll_button, hover_button, clicked_button)
+    draw_button(screen, roll_button, hover_button, clicked_button, button_disabled)
     draw_selected_dices(screen, selected_dices, dice_images)
     draw_score_table(screen)
 
@@ -30,8 +30,10 @@ def draw_selected_dices(screen, selected_dices, dice_images):
         screen.blit(dice_images[value - 1], dice_rect.topleft)
 
 
-def draw_button(screen, button_rect, hover_button, clicked_button):
-    if clicked_button:
+def draw_button(screen, button_rect, hover_button, clicked_button, button_disabled):
+    if button_disabled:
+        button_color = settings.BUTTON_DISABLED_COLOR
+    elif clicked_button:
         button_color = settings.BUTTON_CLICKED_COLOR  # Culoare gri închis pentru click
     elif hover_button:
         button_color = settings.BUTTON_HOVER_COLOR  # Culoare pentru hover
