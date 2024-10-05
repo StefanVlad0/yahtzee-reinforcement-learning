@@ -4,6 +4,7 @@ from draw_module import draw_screen
 from event_module import handle_events
 import settings
 from settings import Messages
+from calcs import calc_values
 
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
@@ -20,10 +21,15 @@ clicked_button = False
 rolls_left = 3
 button_disabled = False
 message = Messages.EMPTY
+needs_recalc = False
 
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled)
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc)
+
+    if (needs_recalc):
+        calc_values(selected_dices + dice_values)
+        needs_recalc = False
 
     if (rolls_left == 3):
         message = Messages.THREE_ROLLS_LEFT

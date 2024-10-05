@@ -3,7 +3,7 @@ from dice_module import roll_dice
 from draw_module import create_dice_rects, create_selected_dice_rects
 
 
-def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled):
+def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc):
     running = True
     mouse_pos = pygame.mouse.get_pos()
     button_disabled = True if rolls_left == 0 else False
@@ -22,6 +22,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                 if (rolls_left):
                     dice_values = [roll_dice() for _ in range(5 - len(selected_dices))]
                     rolls_left = rolls_left - 1
+                    needs_recalc = True
             if event.key == pygame.K_ESCAPE:
                 running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -44,4 +45,5 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                 if (rolls_left):
                     dice_values = [roll_dice() for _ in range(5 - len(selected_dices))]
                     rolls_left = rolls_left - 1
-    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled
+                    needs_recalc = True
+    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc
