@@ -5,6 +5,7 @@ from event_module import handle_events
 import settings
 from settings import Messages
 from calcs import calc_values
+from AI import AI
 
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
@@ -19,6 +20,7 @@ dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]
 clock = pygame.time.Clock()
 
 player = settings.Player()
+ai = AI()
 
 roll_button = pygame.Rect(settings.WIDTH // 2 - 100, settings.HEIGHT - 300, 200, 50)
 selected_dices = []
@@ -31,14 +33,13 @@ score_selected = False
 score_option_rects = create_score_option_rects()
 score = []
 endPlayerTurn = False
+isAITurn = False
+last_roll_time = pygame.time.get_ticks()  
+roll_interval = 3000
 
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player)
-
-    if (needs_recalc):
-        score = calc_values(selected_dices + dice_values)
-        needs_recalc = False
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player ,endPlayerTurn, isAITurn)
 
     if (rolls_left == 3):
         message = Messages.THREE_ROLLS_LEFT
@@ -55,11 +56,23 @@ while running:
     if score_selected:
         message = Messages.AI_TURN
 
-    if endPlayerTurn:
+    if endPlayerTurn:  
         rolls_left = 3
         selected_dices = []
         dice_values = []
         print(player.showScore())
+
+    if isAITurn:
+        endPlayerTurn = False
+        current_time = pygame.time.get_ticks()  
+        if current_time - last_roll_time > roll_interval:  
+            dice_values = ai.rollDice(dice_values, selected_dices)
+            needs_recalc = True
+            last_roll_time = current_time 
+
+    if (needs_recalc):
+        score = calc_values(selected_dices + dice_values)
+        needs_recalc = False        
 
     draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message)
 
