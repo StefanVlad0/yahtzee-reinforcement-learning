@@ -1,6 +1,7 @@
 import pygame
 import settings
 
+
 def create_score_option_rects():
     table_width = 375
     cell_height = 30
@@ -21,6 +22,7 @@ def create_score_option_rects():
             score_option_rects.append((rect, category))
 
     return score_option_rects
+
 
 def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player):
     screen.fill(settings.GREEN)
@@ -118,7 +120,6 @@ def draw_score_table(screen, score, player):
             score_value = score[category]
         else:
             score_value = 0
-        
 
         player_score = player.get_score(category)
 
@@ -138,7 +139,6 @@ def draw_score_table(screen, score, player):
                     screen.blit(score_text, (x_start + 175, y_start + i * cell_height + 10))
                 else:
                     screen.blit(score_text, (x_start + 180, y_start + i * cell_height + 10))
-            
 
     column_labels = ["You", "AI"]
     for j, label in enumerate(column_labels):
@@ -169,4 +169,3 @@ def draw_info(screen, message):
     message_text = font.render(message.value, True, settings.BLACK)
 
     screen.blit(message_text, (x_start + 10, y_start + 10))
-

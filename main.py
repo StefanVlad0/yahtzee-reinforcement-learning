@@ -41,7 +41,7 @@ roll_interval = 3000
 
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn , isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player ,endPlayerTurn, isAITurn)
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn)
 
     if (rolls_left == 3 and isAITurn is False):
         message = Messages.THREE_ROLLS_LEFT_PLAYER

@@ -24,7 +24,7 @@ class Player:
             "Bonus": -1,
             "Three_of_a_kind": -1,
             "Four_of_a_kind": -1,
-            "Full_house": -1,
+            "Full_House": -1,
             "Small_straight": -1,
             "Large_straight": -1,
             "Chance": -1,
@@ -34,7 +34,6 @@ class Player:
 
     def set_score(self, category, value):
         print(f"Score set Player for {category}: {value}")
-        category = category.upper()
         if category in self.scores:
             self.scores[category] = value
         else:

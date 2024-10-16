@@ -1,4 +1,4 @@
-#Suma numerelor de pe zar
+# Suma numerelor de pe zar
 def calc_sum_dices(dices):
     sum = 0
     for dice in dices:
@@ -6,31 +6,29 @@ def calc_sum_dices(dices):
     return sum
 
 
-
-#Verifica daca exista doua zaruri de acelasi tip
+# Verifica daca exista doua zaruri de acelasi tip
 def exists_two_of_a_kind(dices):
     for i in range(7):
         if dices.count(i) == 2:
             return True
-        
+
     return False
+
 
 def exists_three_of_a_kind(dices):
     for i in range(7):
         if dices.count(i) == 3:
             return True
-        
+
     return False
 
 
-
-#Verifica daca toate elementele din lista a sunt in lista b
+# Verifica daca toate elementele din lista a sunt in lista b
 def is_sublist(a, b):
     return all(element in b for element in a)
 
 
-
-#Verifica daca exista small straight in combinatia de zaruri
+# Verifica daca exista small straight in combinatia de zaruri
 def exists_small_straight(dices):
     list_1_4 = [1, 2, 3, 4]
     list_2_5 = [2, 3, 4, 5]
@@ -41,7 +39,7 @@ def exists_small_straight(dices):
     return False
 
 
-#Verifica daca exista large straight in combinatia de zaruri
+# Verifica daca exista large straight in combinatia de zaruri
 def exists_large_straight(dices):
     list_1_5 = [1, 2, 3, 4, 5]
     list_2_6 = [2, 3, 4, 5, 6]
@@ -52,8 +50,7 @@ def exists_large_straight(dices):
     return False
 
 
-
-#Calculeaza maximul de scor din combinatiile posibile
+# Calculeaza maximul de scor din combinatiile posibile
 def calc_max_score(score):
     max = 0
 
@@ -63,12 +60,11 @@ def calc_max_score(score):
     return max
 
 
-
-#Punctajul fiecarei linii din tabela de scor
+# Punctajul fiecarei linii din tabela de scor
 def calc_score(counter_dices_numbers, dices):
     score = {}
 
-    #One of a kind
+    # One of a kind
     score["Ones"] = counter_dices_numbers[1]
     score["Twos"] = counter_dices_numbers[2] * 2
     score["Threes"] = counter_dices_numbers[3] * 3
@@ -83,38 +79,37 @@ def calc_score(counter_dices_numbers, dices):
     score["YAHTZEE"] = 0
     score["Chance"] = 0
 
-
-    #Three of a kind
+    # Three of a kind
     for i in range(6, 0, -1):
         if counter_dices_numbers[i] == 3:
             score["Three_of_a_kind"] = calc_sum_dices(dices)
             break
-    
-    #Four of a kind
+
+    # Four of a kind
     for i in range(6, 0, -1):
         if counter_dices_numbers[i] == 4:
             score["Four_of_a_kind"] = calc_sum_dices(dices)
             break
 
-    #Full House
-    if exists_three_of_a_kind(dices) and exists_two_of_a_kind(dices):   
+    # Full House
+    if exists_three_of_a_kind(dices) and exists_two_of_a_kind(dices):
         score["Full_House"] = 25
 
-    #Small Straight
+    # Small Straight
     if exists_small_straight(dices):
         score["Small_straight"] = 30
 
-    #Large Straight
+    # Large Straight
     if exists_large_straight(dices):
         score["Large_straight"] = 40
 
-    #YAHTZEE
+    # YAHTZEE
     for i in range(7):
         if dices.count(i) == 5:
             score["YAHTZEE"] = 50
             break
 
-    #Chance
+    # Chance
     if calc_max_score(score) < calc_sum_dices(dices):
         score["Chance"] = calc_sum_dices(dices)
     else:
@@ -128,6 +123,6 @@ def calc_values(dices):
     counter_dices_numbers = {}
     for i in range(7):
         counter_dices_numbers[i] = dices.count(i)
-    
+
     score = calc_score(counter_dices_numbers, dices)
     return score
