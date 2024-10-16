@@ -1,6 +1,26 @@
 import pygame
 import settings
 
+def create_score_option_rects():
+    table_width = 375
+    cell_height = 30
+    table_height = 510
+    x_start = settings.WIDTH - table_width - 20
+    y_start = settings.HEIGHT // 2 - table_height // 2
+
+    categories = [
+        "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",
+        "Three_of_a_kind", "Four_of_a_kind", "Full_House", "Small_straight",
+        "Large_straight", "Chance", "YAHTZEE", "TOTAL_SCORE"
+    ]
+
+    score_option_rects = []
+    for i, category in enumerate(categories):
+        if category:  # Sărim peste prima categorie goală
+            rect = pygame.Rect(x_start, y_start + i * cell_height, table_width // 3, cell_height)
+            score_option_rects.append((rect, category))
+
+    return score_option_rects
 
 def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score):
     screen.fill(settings.GREEN)
@@ -137,3 +157,4 @@ def draw_info(screen, message):
     message_text = font.render(message.value, True, settings.BLACK)
 
     screen.blit(message_text, (x_start + 10, y_start + 10))
+
