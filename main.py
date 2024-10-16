@@ -18,6 +18,7 @@ dice_values = []
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]
 clock = pygame.time.Clock()
 
+player = settings.Player()
 
 def create_score_option_rects():
     table_width = 375
@@ -28,8 +29,8 @@ def create_score_option_rects():
 
     categories = [
         "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",
-        "Three of a kind", "Four of a kind", "Full House", "Small straight",
-        "Large straight", "Chance", "YAHTZEE", "TOTAL SCORE"
+        "Three_of_a_kind", "Four_of_a_kind", "Full_House", "Small_straight",
+        "Large_straight", "Chance", "YAHTZEE", "TOTAL_SCORE"
     ]
 
     score_option_rects = []
@@ -55,7 +56,7 @@ endPlayerTurn = False
 
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score)
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player)
 
     if (needs_recalc):
         score = calc_values(selected_dices + dice_values)
@@ -78,6 +79,8 @@ while running:
 
     if endPlayerTurn:
         rolls_left = 3
+        selected_dices = []
+        print(player.showScore())
 
     draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message)
 

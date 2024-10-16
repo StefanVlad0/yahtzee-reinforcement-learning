@@ -3,7 +3,7 @@ from dice_module import roll_dice
 from draw_module import create_dice_rects, create_selected_dice_rects
 
 
-def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score):
+def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player):
     running = True
     endPlayerTurn = False
     mouse_pos = pygame.mouse.get_pos()
@@ -51,6 +51,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                         if value:
                             print(f"Score for {category}: {value}")
                             endPlayerTurn = True
+                            player.set_score(category.upper(),value)
 
         elif event.type == pygame.MOUSEBUTTONUP:
             clicked_button = False

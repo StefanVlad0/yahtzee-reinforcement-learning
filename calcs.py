@@ -78,11 +78,11 @@ def calc_score(counter_dices_numbers, dices):
     score["Fours"] = counter_dices_numbers[4] * 4
     score["Fives"] = counter_dices_numbers[5] * 5
     score["Sixs"] = counter_dices_numbers[6] * 6
-    score["Three of a kind"] = 0
-    score["Four of a kind"] = 0
-    score["Full House"] = 0
-    score["Small straight"] = 0
-    score["Large straight"] = 0
+    score["Three_of_a_kind"] = 0
+    score["Four_of_a_kind"] = 0
+    score["Full_House"] = 0
+    score["Small_straight"] = 0
+    score["Large_straight"] = 0
     score["YAHTZEE"] = 0
     score["Chance"] = 0
 
@@ -90,26 +90,26 @@ def calc_score(counter_dices_numbers, dices):
     #Three of a kind
     for i in range(6, 0, -1):
         if counter_dices_numbers[i] == 3:
-            score["Three of a kind"] = calc_sum_dices(dices)
+            score["Three_of_a_kind"] = calc_sum_dices(dices)
             break
     
     #Four of a kind
     for i in range(6, 0, -1):
         if counter_dices_numbers[i] == 4:
-            score["Four of a kind"] = calc_sum_dices(dices)
+            score["Four_of_a_kind"] = calc_sum_dices(dices)
             break
 
     #Full House
     if exists_three_of_a_kind(dices) in score and exists_two_of_a_kind(dices):
-        score["Full House"] = 25
+        score["Full_House"] = 25
 
     #Small Straight
     if exists_small_straight(dices):
-        score["Small straight"] = 30
+        score["Small_straight"] = 30
 
     #Large Straight
     if exists_large_straight(dices):
-        score["Large straight"] = 40
+        score["Large_straight"] = 40
 
     #YAHTZEE
     for i in range(7):
