@@ -3,9 +3,8 @@ from dice_module import roll_dice
 from draw_module import create_dice_rects, create_selected_dice_rects
 
 
-def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player):
+def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn):
     running = True
-    endPlayerTurn = False
     mouse_pos = pygame.mouse.get_pos()
     button_disabled = True if rolls_left == 0 else False
     hover_button = roll_button.collidepoint(mouse_pos) if not button_disabled else False
@@ -50,8 +49,9 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                         value = score.get(category)
                         if value:
                             print(f"Score for {category}: {value}")
-                            endPlayerTurn = True
                             player.set_score(category.upper(),value)
+                            isAITurn = True
+                            endPlayerTurn = True
 
         elif event.type == pygame.MOUSEBUTTONUP:
             clicked_button = False
@@ -61,4 +61,4 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                     rolls_left = rolls_left - 1
                     needs_recalc = True
 
-    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn
+    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn
