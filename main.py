@@ -9,17 +9,21 @@ from calcs import calc_values
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
 
+screen_info = pygame.display.Info()
+settings.WIDTH, settings.HEIGHT = screen_info.current_w, screen_info.current_h
+
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 pygame.display.set_caption("AI-Project")
 dice_values = []
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]
 clock = pygame.time.Clock()
 
+
 def create_score_option_rects():
-    table_width = 450
+    table_width = 400
     cell_height = 40
     x_start = settings.WIDTH - table_width - 20
-    y_start = settings.HEIGHT // 2 - 680 // 2  
+    y_start = settings.HEIGHT // 2 - 680 // 2
 
     categories = [
         "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",
@@ -73,7 +77,6 @@ while running:
 
     if endPlayerTurn:
         rolls_left = 3
-        
 
     draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message)
 

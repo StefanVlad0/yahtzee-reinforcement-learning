@@ -69,7 +69,7 @@ class Aux(Enum):
 
 
 # Screen dimensions
-WIDTH, HEIGHT = 1600, 1000
+WIDTH, HEIGHT = None, None
 
 # Colors
 WHITE = (255, 255, 255)

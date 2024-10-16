@@ -25,7 +25,7 @@ def draw_dice(screen, values, dice_images):
 
 def draw_selected_dices(screen, selected_dices, dice_images):
     x_start = (settings.WIDTH - (5 * settings.DICE_SIZE + 4 * settings.SPACING)) // 2  # - (2.5 * settings.DICE_SIZE + 2 * settings.SPACING)
-    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2 + 350
+    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2 + 250
     for i, value in enumerate(selected_dices):
         dice_rect = pygame.Rect(x_start + i * (settings.DICE_SIZE + settings.SPACING), y_start, settings.DICE_SIZE, settings.DICE_SIZE)
         screen.blit(dice_images[value - 1], dice_rect.topleft)
@@ -64,7 +64,7 @@ def create_dice_rects(dice_values):
 def create_selected_dice_rects(selected_dices):
     selected_dice_rects = []
     x_start = (settings.WIDTH - (5 * settings.DICE_SIZE + 4 * settings.SPACING)) // 2
-    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2 + 350
+    y_start = settings.HEIGHT // 2 - settings.DICE_SIZE // 2 + 250
 
     for i, _ in enumerate(selected_dices):
         dice_rect = pygame.Rect(x_start + i * (settings.DICE_SIZE + settings.SPACING), y_start, settings.DICE_SIZE, settings.DICE_SIZE)
@@ -74,15 +74,15 @@ def create_selected_dice_rects(selected_dices):
 
 
 def draw_score_table(screen):
-    table_width = 450
-    table_height = 680
-    cell_height = 40
+    table_width = 375
+    table_height = 510
+    cell_height = 30
     x_start = settings.WIDTH - table_width - 20
     y_start = settings.HEIGHT // 2 - table_height // 2
 
     pygame.draw.rect(screen, settings.WHITE, (x_start - 10, y_start - 10, table_width + 20, table_height + 20))  # White background
 
-    font = pygame.font.SysFont('arial', 24)
+    font = pygame.font.SysFont('arial', 16)
 
     categories = [
         "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",
@@ -122,7 +122,7 @@ def draw_info(screen, message):
 
     pygame.draw.rect(screen, settings.YELLOW, (x_start, y_start, settings.INFO_WIDTH, settings.INFO_HEIGHT))
 
-    font = pygame.font.SysFont('arial', 24)
+    font = pygame.font.SysFont('arial', 16)
     message_text = font.render(message.value, True, settings.BLACK)
 
     screen.blit(message_text, (x_start + 10, y_start + 10))
