@@ -49,7 +49,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                         value = score.get(category)
                         if value:
                             print(f"Score for {category}: {value}")
-                            player.set_score(category.upper(),value)
+                            player.set_score(category,value)
                             isAITurn = True
                             endPlayerTurn = True
 

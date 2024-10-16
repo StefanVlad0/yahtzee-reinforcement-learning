@@ -22,12 +22,12 @@ def create_score_option_rects():
 
     return score_option_rects
 
-def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score):
+def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player):
     screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button, hover_button, clicked_button, button_disabled)
     draw_selected_dices(screen, selected_dices, dice_images)
-    draw_score_table(screen, score)
+    draw_score_table(screen, score, player)
     draw_info(screen, message)
 
 
@@ -93,7 +93,7 @@ def create_selected_dice_rects(selected_dices):
     return selected_dice_rects
 
 
-def draw_score_table(screen, score):
+def draw_score_table(screen, score, player):
     table_width = 375
     table_height = 510
     cell_height = 30
@@ -118,15 +118,27 @@ def draw_score_table(screen, score):
             score_value = score[category]
         else:
             score_value = 0
-        score_text = font.render(str(score_value), True, settings.RED)
+        
+
+        player_score = player.get_score(category)
 
         text = font.render(category, True, settings.BLACK)
         screen.blit(text, (x_start + 10, y_start + i * cell_height + 10))
-        if (score_value != 0):
-            if(score_value > 9):
-                screen.blit(score_text, (x_start + 175, y_start + i * cell_height + 10))
+        if player_score is not None:
+            if player_score == -1:
+                if (score_value != 0):
+                    score_text = font.render(str(score_value), True, settings.RED)
+                    if (score_value > 9):
+                        screen.blit(score_text, (x_start + 175, y_start + i * cell_height + 10))
+                    else:
+                        screen.blit(score_text, (x_start + 180, y_start + i * cell_height + 10))
             else:
-                screen.blit(score_text, (x_start + 180, y_start + i * cell_height + 10))
+                score_text = font.render(str(player_score), True, settings.BLACK)
+                if (player_score > 9):
+                    screen.blit(score_text, (x_start + 175, y_start + i * cell_height + 10))
+                else:
+                    screen.blit(score_text, (x_start + 180, y_start + i * cell_height + 10))
+            
 
     column_labels = ["You", "AI"]
     for j, label in enumerate(column_labels):
