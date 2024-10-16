@@ -44,8 +44,9 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                 if rect.collidepoint(event.pos):
                     if score:
                         value = score.get(category)
-                        print(f"Score for {category}: {value}")
-                        endPlayerTurn = True
+                        if value:
+                            print(f"Score for {category}: {value}")
+                            endPlayerTurn = True
 
 
 
