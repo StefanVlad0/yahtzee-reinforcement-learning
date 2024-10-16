@@ -1,4 +1,6 @@
 from dice_module import roll_dice
+import random
+
 
 class AI:
     def __init__(self):
@@ -22,10 +24,12 @@ class AI:
         }
 
     def set_score(self, category, value):
+        category = category.upper()
         if category in self.scores:
             self.scores[category] = value
+            print(f"Score set AI for {category}: {value}")
         else:
-            print(f"Invalid category: {category}")
+            print(f"Invalid category for AI: {category}")
 
     def get_score(self, category):
         return self.scores.get(category, None)
@@ -33,9 +37,14 @@ class AI:
     def showScore(self):
         score_list = [f"{category}: {score}" for category, score in self.scores.items()]
         return "\n".join(score_list)
-    
-    def rollDice(self, diceValue,selected_dices):
+
+    def rollDice(self, diceValue, selected_dices):
         num_rolls = 5 - len(selected_dices)
         rolled_dice = [roll_dice() for _ in range(num_rolls)]
-        
-        return rolled_dice + selected_dices  
+        return rolled_dice, selected_dices
+
+    def chooseOption(self, score):
+        keys = list(score.keys())
+        random_key = random.choice(keys)
+        random_value = score[random_key]
+        self.set_score(random_key, random_value)

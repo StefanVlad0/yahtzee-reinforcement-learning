@@ -6,7 +6,7 @@ from draw_module import create_dice_rects, create_selected_dice_rects
 def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn):
     running = True
     mouse_pos = pygame.mouse.get_pos()
-    button_disabled = True if rolls_left == 0 else False
+    button_disabled = True if rolls_left == 0 or isAITurn else False
     hover_button = roll_button.collidepoint(mouse_pos) if not button_disabled else False
 
     if hover_button:
@@ -47,9 +47,8 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                 if rect.collidepoint(event.pos):
                     if score:
                         value = score.get(category)
-                        if value:
-                            print(f"Score for {category}: {value}")
-                            player.set_score(category,value)
+                        if value is not None:
+                            player.set_score(category, value)
                             isAITurn = True
                             endPlayerTurn = True
 
