@@ -7,6 +7,7 @@ class Messages(Enum):
     TWO_ROLLS_LEFT = "Click the dice you want to keep. You have 2 throws left."
     ONE_ROLLS_LEFT = "Click the dice you want to keep. You have 1 throws left."
     ZERO_ROLLS_LEFT = "Select your move by clicking a cell on the scorecard."
+    AI_TURN = "Now is AI turn."
     EMPTY = ""
 
 

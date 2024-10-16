@@ -15,6 +15,13 @@ def exists_two_of_a_kind(dices):
         
     return False
 
+def exists_three_of_a_kind(dices):
+    for i in range(7):
+        if dices.count(i) == 3:
+            return True
+        
+    return False
+
 
 
 #Verifica daca toate elementele din lista a sunt in lista b
@@ -71,6 +78,14 @@ def calc_score(counter_dices_numbers, dices):
     score["Fours"] = counter_dices_numbers[4] * 4
     score["Fives"] = counter_dices_numbers[5] * 5
     score["Sixs"] = counter_dices_numbers[6] * 6
+    score["Three of a kind"] = 0
+    score["Four of a kind"] = 0
+    score["Full House"] = 0
+    score["Small straight"] = 0
+    score["Large straight"] = 0
+    score["YAHTZEE"] = 0
+    score["Chance"] = 0
+
 
     #Three of a kind
     for i in range(6, 0, -1):
@@ -85,7 +100,7 @@ def calc_score(counter_dices_numbers, dices):
             break
 
     #Full House
-    if "Three of a kind" in score and exists_two_of_a_kind(dices):
+    if exists_three_of_a_kind(dices) in score and exists_two_of_a_kind(dices):
         score["Full House"] = 25
 
     #Small Straight
@@ -109,6 +124,7 @@ def calc_score(counter_dices_numbers, dices):
         score["Chance"] = calc_max_score(score)
 
     print(dices, score)
+    return score
 
 
 def calc_values(dices):
@@ -116,4 +132,5 @@ def calc_values(dices):
     for i in range(7):
         counter_dices_numbers[i] = dices.count(i)
     
-    calc_score(counter_dices_numbers, dices)
+    score = calc_score(counter_dices_numbers, dices)
+    return score
