@@ -77,7 +77,7 @@ def calc_score(counter_dices_numbers, dices):
     score["Threes"] = counter_dices_numbers[3] * 3
     score["Fours"] = counter_dices_numbers[4] * 4
     score["Fives"] = counter_dices_numbers[5] * 5
-    score["Sixs"] = counter_dices_numbers[6] * 6
+    score["Sixes"] = counter_dices_numbers[6] * 6
     score["Three_of_a_kind"] = 0
     score["Four_of_a_kind"] = 0
     score["Full_House"] = 0

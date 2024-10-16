@@ -93,6 +93,7 @@ BLACK = (0, 0, 0)
 BLUE = (0, 128, 255)
 GREEN = (0, 160, 0)
 YELLOW = (237, 243, 90)
+RED = (255, 0, 0)
 
 # Dice settings
 DICE_SIZE = 100

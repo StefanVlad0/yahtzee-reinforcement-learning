@@ -2,12 +2,12 @@ import pygame
 import settings
 
 
-def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message):
+def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score):
     screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button, hover_button, clicked_button, button_disabled)
     draw_selected_dices(screen, selected_dices, dice_images)
-    draw_score_table(screen)
+    draw_score_table(screen, score)
     draw_info(screen, message)
 
 
@@ -73,7 +73,7 @@ def create_selected_dice_rects(selected_dices):
     return selected_dice_rects
 
 
-def draw_score_table(screen):
+def draw_score_table(screen, score):
     table_width = 375
     table_height = 510
     cell_height = 30
@@ -94,8 +94,19 @@ def draw_score_table(screen):
         # break line
         pygame.draw.line(screen, settings.BLACK, (x_start, y_start + (i + 1) * cell_height), (x_start + table_width, y_start + (i + 1) * cell_height), 2)
 
+        if category in score:
+            score_value = score[category]
+        else:
+            score_value = 0
+        score_text = font.render(str(score_value), True, settings.RED)
+
         text = font.render(category, True, settings.BLACK)
         screen.blit(text, (x_start + 10, y_start + i * cell_height + 10))
+        if (score_value != 0):
+            if(score_value > 9):
+                screen.blit(score_text, (x_start + 175, y_start + i * cell_height + 10))
+            else:
+                screen.blit(score_text, (x_start + 180, y_start + i * cell_height + 10))
 
     column_labels = ["You", "AI"]
     for j, label in enumerate(column_labels):

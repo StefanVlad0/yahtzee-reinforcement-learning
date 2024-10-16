@@ -82,7 +82,7 @@ while running:
         selected_dices = []
         print(player.showScore())
 
-    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message)
+    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score)
 
     pygame.display.flip()
     clock.tick(60)
