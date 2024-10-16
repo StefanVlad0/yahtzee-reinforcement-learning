@@ -3,12 +3,13 @@ from enum import Enum
 
 
 class Messages(Enum):
-    THREE_ROLLS_LEFT = "Your turn. You have 3 throws left."
-    TWO_ROLLS_LEFT = "Click the dice you want to keep. You have 2 throws left."
-    ONE_ROLLS_LEFT = "Click the dice you want to keep. You have 1 throws left."
-    ZERO_ROLLS_LEFT = "Select your move by clicking a cell on the scorecard."
+    THREE_ROLLS_LEFT_PLAYER = "Your turn. You have 3 throws left."
+    TWO_ROLLS_LEFT_PLAYER = "Click the dice you want to keep. You have 2 throws left."
+    ONE_ROLLS_LEFT_PLAYER = "Click the dice you want to keep. You have 1 throws left."
+    ZERO_ROLLS_LEFT_PLAYER = "Select your move by clicking a cell on the scorecard."
     AI_TURN = "Now is AI turn."
     EMPTY = ""
+
 
 class Player:
     def __init__(self):
@@ -32,10 +33,12 @@ class Player:
         }
 
     def set_score(self, category, value):
+        print(f"Score set Player for {category}: {value}")
+        category = category.upper()
         if category in self.scores:
             self.scores[category] = value
         else:
-            print(f"Invalid category: {category}")
+            print(f"Invalid category for Player: {category}")
 
     def get_score(self, category):
         return self.scores.get(category, None)

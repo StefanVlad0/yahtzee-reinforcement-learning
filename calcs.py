@@ -38,10 +38,8 @@ def exists_small_straight(dices):
 
     if is_sublist(list_1_4, dices) or is_sublist(list_2_5, dices) or is_sublist(list_3_6, dices):
         return True
-    
     return False
 
-    
 
 #Verifica daca exista large straight in combinatia de zaruri
 def exists_large_straight(dices):
@@ -62,7 +60,6 @@ def calc_max_score(score):
     for value in score.values():
         if value > max:
             max = value
-    
     return max
 
 
@@ -100,7 +97,7 @@ def calc_score(counter_dices_numbers, dices):
             break
 
     #Full House
-    if exists_three_of_a_kind(dices) in score and exists_two_of_a_kind(dices):
+    if exists_three_of_a_kind(dices) and exists_two_of_a_kind(dices):   
         score["Full_House"] = 25
 
     #Small Straight
