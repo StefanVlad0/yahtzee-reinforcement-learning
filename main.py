@@ -20,10 +20,11 @@ clock = pygame.time.Clock()
 
 
 def create_score_option_rects():
-    table_width = 400
-    cell_height = 40
+    table_width = 375
+    cell_height = 30
+    table_height = 510
     x_start = settings.WIDTH - table_width - 20
-    y_start = settings.HEIGHT // 2 - 680 // 2
+    y_start = settings.HEIGHT // 2 - table_height // 2
 
     categories = [
         "", "Ones", "Twos", "Threes", "Fours", "Fives", "Sixes", "Sum", "Bonus",

@@ -15,6 +15,10 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
     else:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
+    for rect, category in score_option_rects:
+        if rect.collidepoint(mouse_pos):
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -48,8 +52,6 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                             print(f"Score for {category}: {value}")
                             endPlayerTurn = True
 
-
-
         elif event.type == pygame.MOUSEBUTTONUP:
             clicked_button = False
             if roll_button.collidepoint(event.pos):
@@ -59,4 +61,3 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                     needs_recalc = True
 
     return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn
-
