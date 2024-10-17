@@ -64,12 +64,14 @@ while running:
         rolls_left = 3
         selected_dices = []
         dice_values = []
+        score = []
         isAITurn = False
 
     if endPlayerTurn:
         ai_rolls_left = 3
         selected_dices = []
         dice_values = []
+        score = []
 
     if isAITurn:
         endPlayerTurn = False
