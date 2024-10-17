@@ -2,6 +2,26 @@ import pygame
 import settings
 
 
+# Afiseaza sum
+# def calculate_sum_and_bonus(screen, player, ai):
+#     if player.check_sum():
+#         if player.calculate_sum():
+#             player.scores["Bonus"] = 35
+#         else:
+#             player.score["Bonus"] = 0
+
+#     if ai.check_sum():
+#         if ai.calculate_sum() >= 63:
+#             ai.scores["Bonus"] = 35
+#         else:
+#             ai.scores["Bonus"] = 0
+
+
+# def draw_total_score(screen, player, ai):
+#     player.check_total_score()
+#     ai.check_total_score()
+
+
 def create_score_option_rects():
     table_width = 375
     cell_height = 30
@@ -31,6 +51,13 @@ def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_
     draw_selected_dices(screen, selected_dices, dice_images)
     draw_score_table(screen, score, player, isAITurn, ai)
     draw_info(screen, message)
+    player.check_sum()
+    player.check_total_score()
+    ai.check_sum()
+    ai.check_total_score()
+    print(player.scores)
+    print('\n')
+    print(ai.scores)
 
 
 def draw_dice(screen, values, dice_images):

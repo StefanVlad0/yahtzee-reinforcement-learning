@@ -51,6 +51,36 @@ class Player:
         score_list = [f"{category}: {score}" for category, score in self.scores.items()]
         return "\n".join(score_list)
 
+    def check_sum(self):
+        main_scores = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes"]
+        for category in main_scores:
+            if self.scores[category] == -1:
+                return
+
+        main_scores = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes"]
+        total_sum = sum(self.scores[category] for category in main_scores if self.scores[category] != -1)
+        self.scores["Sum"] = total_sum
+
+        if total_sum >= 63:
+            self.scores["Bonus"] = 35
+        else:
+            self.scores["Bonus"] = 0
+
+    def check_total_score(self):
+        for key in self.scores:
+            if key != "TOTAL_SCORE" and self.scores[key] == -1:
+                return
+
+        total_sum = sum(value for key, value in self.scores.items() if (key != "TOTAL_SCORE" and key != "Sum") and value != -1)
+        self.scores["TOTAL_SCORE"] = total_sum
+        return
+
+    def check_end(self):
+        for key in self.scores:
+            if self.scores[key] == -1:
+                return False
+        return True
+
 
 # Screen dimensions
 WIDTH, HEIGHT = None, None

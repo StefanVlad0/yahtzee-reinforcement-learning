@@ -15,9 +15,19 @@ def exists_two_of_a_kind(dices):
     return False
 
 
+# Verifica daca exista trei zaruri de acelasi tip
 def exists_three_of_a_kind(dices):
     for i in range(7):
         if dices.count(i) == 3:
+            return True
+
+    return False
+
+
+# Verifica daca exista 4 zaruri de acelasi tip
+def exists_four_of_a_kind(dices):
+    for i in range(7):
+        if dices.count(i) == 4:
             return True
 
     return False
@@ -34,8 +44,13 @@ def exists_small_straight(dices):
     list_2_5 = [2, 3, 4, 5]
     list_3_6 = [3, 4, 5, 6]
 
-    if is_sublist(list_1_4, dices) or is_sublist(list_2_5, dices) or is_sublist(list_3_6, dices):
+    if (
+        is_sublist(list_1_4, dices) or
+        is_sublist(list_2_5, dices) or
+        is_sublist(list_3_6, dices)
+    ):
         return True
+
     return False
 
 
@@ -80,16 +95,12 @@ def calc_score(counter_dices_numbers, dices):
     score["Chance"] = 0
 
     # Three of a kind
-    for i in range(6, 0, -1):
-        if counter_dices_numbers[i] == 3:
-            score["Three_of_a_kind"] = calc_sum_dices(dices)
-            break
+    if exists_three_of_a_kind(dices) or exists_four_of_a_kind(dices):
+        score["Three_of_a_kind"] = calc_sum_dices(dices)
 
     # Four of a kind
-    for i in range(6, 0, -1):
-        if counter_dices_numbers[i] == 4:
-            score["Four_of_a_kind"] = calc_sum_dices(dices)
-            break
+    if exists_four_of_a_kind(dices):
+        score["Four_of_a_kind"] = calc_sum_dices(dices)
 
     # Full House
     if exists_three_of_a_kind(dices) and exists_two_of_a_kind(dices):
@@ -110,10 +121,7 @@ def calc_score(counter_dices_numbers, dices):
             break
 
     # Chance
-    if calc_max_score(score) < calc_sum_dices(dices):
-        score["Chance"] = calc_sum_dices(dices)
-    else:
-        score["Chance"] = calc_max_score(score)
+    score["Chance"] = calc_sum_dices(dices)
 
     print(dices, score)
     return score
