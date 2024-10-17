@@ -1,0 +1,66 @@
+# Fișiere generate de Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Fișiere cache și temporare
+*.log
+*.tmp
+*.swp
+*.bak
+*.pid
+*.coverage
+*.sqlite3
+
+# Fisiere si directoare legate de editori
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Fișiere de sistem
+.DS_Store
+Thumbs.db
+
+# Fișiere de virtual environment
+venv/
+.env/
+env/
+.venv/
+
+# Fișiere și directoare generate de Pygame
+*.wav
+*.ogg
+*.mp3
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Librării externe și pachete locale
+*.egg-info/
+*.egg
+dist/
+build/
+
+# Fișiere de configurare pentru Docker
+docker-compose.yml
+Dockerfile
+
+# Fișiere de configurare pentru testare
+coverage.xml
+nosetests.xml
+.test/
+.tox/
+
+# Excluderea fișierelor mari care ar putea fi în timpul dezvoltării
+*.psd
+*.ai
+*.zip
+*.rar
+*.7z
+
+# Exclude fișierele de configurare și cache locale
+*.ini
+*.cfg
