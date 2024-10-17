@@ -116,13 +116,15 @@ def draw_score_table(screen, score, player, isAITurn, ai):
         # break line
         pygame.draw.line(screen, settings.BLACK, (x_start, y_start + (i + 1) * cell_height), (x_start + table_width, y_start + (i + 1) * cell_height), 2)
 
-        if category in score:
-            score_value = score[category]
+        category_modified = category.replace(" ", "_")
+
+        if category_modified in score:
+            score_value = score[category_modified]
         else:
             score_value = 0
 
-        player_score = player.get_score(category)
-        ai_score = ai.get_score(category)
+        player_score = player.get_score(category_modified)
+        ai_score = ai.get_score(category_modified)
 
         text = font.render(category, True, settings.BLACK)
         screen.blit(text, (x_start + 10, y_start + i * cell_height + 10))
