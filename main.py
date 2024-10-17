@@ -84,7 +84,7 @@ while running:
         score = calc_values(selected_dices + dice_values)
         needs_recalc = False
 
-    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player)
+    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player, ai, isAITurn)
 
     pygame.display.flip()
     clock.tick(60)
