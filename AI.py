@@ -34,6 +34,11 @@ class AI:
     def get_score(self, category):
         return self.scores.get(category, None)
 
+    def checkScore(self, category):
+        if category in self.scores and self.scores[category] == -1:
+            return True
+        return False
+
     def showScore(self):
         score_list = [f"{category}: {score}" for category, score in self.scores.items()]
         return "\n".join(score_list)
@@ -44,7 +49,10 @@ class AI:
         return rolled_dice, selected_dices
 
     def chooseOption(self, score):
-        keys = list(score.keys())
+        keys = [key for key in score if self.checkScore(key)]
+        if not keys:
+            print("Nu mai există opțiuni cu valoarea -1 disponibile.")
+            return
         random_key = random.choice(keys)
         random_value = score[random_key]
         self.set_score(random_key, random_value)

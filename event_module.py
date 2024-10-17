@@ -50,7 +50,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                     if rect.collidepoint(event.pos):
                         if score:
                             value = score.get(category)
-                            if value is not None:
+                            if value is not None and player.checkScore(category):
                                 player.set_score(category, value)
                                 isAITurn = True
                                 endPlayerTurn = True

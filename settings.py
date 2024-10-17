@@ -42,6 +42,11 @@ class Player:
     def get_score(self, category):
         return self.scores.get(category, None)
 
+    def checkScore(self, category):
+        if category in self.scores and self.scores[category] == -1:
+            return True
+        return False
+
     def showScore(self):
         score_list = [f"{category}: {score}" for category, score in self.scores.items()]
         return "\n".join(score_list)
