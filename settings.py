@@ -9,6 +9,9 @@ class Messages(Enum):
     ZERO_ROLLS_LEFT_PLAYER = "Select your move by clicking a cell on the scorecard."
     AI_TURN = "Now is AI turn."
     EMPTY = ""
+    PLAYER_WINS = "Player wins."
+    AI_WINS = "AI wins."
+    DRAW = "Draw."
 
 
 class Player:

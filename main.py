@@ -38,33 +38,40 @@ isAITurn = False
 last_roll_time = pygame.time.get_ticks()
 roll_interval = 3000
 
-
+game_over = False
 running = True
 while running:
     running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn)
 
     # CONDITIA OPRIRE
     if player.check_end() and ai.check_end():
-        exit()
+        if player.scores["TOTAL_SCORE"] > ai.scores["TOTAL_SCORE"]:
+            message = Messages.PLAYER_WINS
+        elif ai.scores["TOTAL_SCORE"] > player.scores["TOTAL_SCORE"]:
+            message = Messages.AI_WINS
+        else:
+            message = Messages.DRAW
+        game_over = True
+        # exit()
     # CONDITIA OPRIRE
 
-    if (rolls_left == 3 and isAITurn is False):
+    if (rolls_left == 3 and isAITurn is False and game_over is False):
         message = Messages.THREE_ROLLS_LEFT_PLAYER
-    elif (rolls_left == 2 and isAITurn is False):
+    elif (rolls_left == 2 and isAITurn is False and game_over is False):
         message = Messages.TWO_ROLLS_LEFT_PLAYER
-    elif (rolls_left == 1 and isAITurn is False):
+    elif (rolls_left == 1 and isAITurn is False and game_over is False):
         message = Messages.ONE_ROLLS_LEFT_PLAYER
-    elif (rolls_left == 0 and isAITurn is False):
+    elif (rolls_left == 0 and isAITurn is False and game_over is False):
         message = Messages.ZERO_ROLLS_LEFT_PLAYER
 
-    if isAITurn:
+    if isAITurn and game_over is False:
         message = Messages.AI_TURN
 
         if ai_rolls_left == 0 and not endPlayerTurn:
             ai.chooseOption(score)
             startPlayerTurn = True
 
-    if startPlayerTurn:
+    if startPlayerTurn and game_over is False:
         startPlayerTurn = False
         rolls_left = 3
         selected_dices = []
@@ -72,13 +79,13 @@ while running:
         score = []
         isAITurn = False
 
-    if endPlayerTurn:
+    if endPlayerTurn and game_over is False:
         ai_rolls_left = 3
         selected_dices = []
         dice_values = []
         score = []
 
-    if isAITurn:
+    if isAITurn and game_over is False:
         endPlayerTurn = False
         current_time = pygame.time.get_ticks()
         if current_time - last_roll_time > roll_interval:
