@@ -6,6 +6,7 @@ import settings
 from settings import Messages
 from calcs import calc_values
 from AI import AI
+from game_state import GameState
 
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
@@ -38,10 +39,20 @@ isAITurn = False
 last_roll_time = pygame.time.get_ticks()
 roll_interval = 3000
 
+# Initialize GameState
+game_state = GameState(player, ai, dice_values, selected_dices, rolls_left, ai_rolls_left, isAITurn)
+
 game_over = False
 running = True
 while running:
     running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn)
+
+    # Update GameState
+    game_state.update_dice_values(dice_values)
+    game_state.update_selected_dices(selected_dices)
+    game_state.update_rolls_left(rolls_left)
+    game_state.update_ai_rolls_left(ai_rolls_left)
+    game_state.isAITurn = isAITurn
 
     # CONDITIA OPRIRE
     if player.check_end() and ai.check_end():
@@ -68,7 +79,8 @@ while running:
         message = Messages.AI_TURN
 
         if ai_rolls_left == 0 and not endPlayerTurn:
-            ai.chooseOption(score)
+            score = calc_values(selected_dices + dice_values)  # Calculate the score
+            ai.chooseOption(score)  # Pass the score to AI
             startPlayerTurn = True
 
     if startPlayerTurn and game_over is False:
