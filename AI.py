@@ -1,4 +1,5 @@
 from dice_module import roll_dice
+import random
 
 
 class AI:
@@ -79,8 +80,15 @@ class AI:
     def chooseOption(self, score, index):
         invalid = self.checkScore(index)
         if invalid:
-            print("Nu mai există opțiuni cu valoarea -1 disponibile.")
+            print("Invalid option.")
+            non_minus_one_keys = [key for key in self.scores if self.scores[key] == -1 and key in score]
+
+            if non_minus_one_keys:
+                random_key = random.choice(non_minus_one_keys)
+                self.scores[random_key] = score[random_key]
+                print(f"Ai choose random value {random_key}")
             return
+
         points = []
         for key in score:
             points.append(score[key])

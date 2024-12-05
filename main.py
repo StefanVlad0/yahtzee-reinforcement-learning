@@ -54,12 +54,19 @@ selection_start_time = None
 selectAfterRoll = False
 can_choose = False
 max_index = None
+dicesToReroll = None
 
 
 def encode_state(scor_table, dice, rerolls_left):
     scor_table_tuple = tuple(scor_table)
     dice_tuple = tuple(sorted(dice))  # Sorted dices
     return scor_table_tuple, dice_tuple, rerolls_left
+
+
+def reverse_index(index):
+    binary_val = index - 13
+    binary_str = format(binary_val, '05b')
+    return [i for i, bit in enumerate(binary_str) if bit == '1']
 
 
 # Initialize GameState
@@ -103,9 +110,12 @@ while running:
         current_time = pygame.time.get_ticks()
 
         if current_time - last_roll_time > roll_interval:
-            if can_choose and not endPlayerTurn:
-                score = calc_values(selected_dices + dice_values)  # Calculate the score
-                ai.chooseOption(score, max_index)  # Pass the score to AI
+            if can_choose and not endPlayerTurn or ai_rolls_left == 0:
+
+                if max_index >= 13:
+                    max_index = random.randint(0, 12)
+                score = calc_values(selected_dices + dice_values)
+                ai.chooseOption(score, max_index)
                 startPlayerTurn = True
                 can_choose = False
                 max_index = None
@@ -139,12 +149,14 @@ while running:
             print("Actiune", max_index)
             if max_index < 13:  # selectam din tabel
                 can_choose = True
+            else:
+                dicesToReroll = reverse_index(max_index)
 
             needs_recalc = True
             last_roll_time = current_time
             selectAfterRoll = True
 
-        if selectAfterRoll and ai_rolls_left >= 1:
+        if selectAfterRoll and ai_rolls_left >= 1 and dicesToReroll:
             if not selection_start_time:
                 selection_start_time = pygame.time.get_ticks()
 
@@ -152,11 +164,14 @@ while running:
                 selectAfterRoll = False
                 selection_start_time = None
 
-                numberOfSelectedDice = random.randint(0, len(dice_values))
-                for _ in range(numberOfSelectedDice):
-                    randomSelected = random.randint(0, len(dice_values) - 1)
-                    selected_dices.append(dice_values[randomSelected])
-                    dice_values.pop(randomSelected)
+                sorted_dices = sorted(dice_values)
+                print(f"Dices: {sorted_dices}")
+                for dice in dicesToReroll:
+                    print(f"Zar ales: {dice}")
+                    selected_dices.append(sorted_dices[dice])
+                    dice_values.remove(sorted_dices[dice])
+
+            dicesToReroll = None
 
     if (needs_recalc):
         score = calc_values(selected_dices + dice_values)

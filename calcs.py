@@ -1,3 +1,31 @@
+def get_reward(index, dices):
+    if index == 0:
+        return calc_values(dices)["Ones"]
+    elif index == 1:
+        return calc_values(dices)["Twos"]
+    elif index == 2:
+        return calc_values(dices)["Threes"]
+    elif index == 3:
+        return calc_values(dices)["Fours"]
+    elif index == 4:
+        return calc_values(dices)["Fives"]
+    elif index == 5:
+        return calc_values(dices)["Sixes"]
+    elif index == 6:
+        return calc_values(dices)["Three_of_a_kind"]
+    elif index == 7:
+        return calc_values(dices)["Four_of_a_kind"]
+    elif index == 8:
+        return calc_values(dices)["Full_House"]
+    elif index == 9:
+        return calc_values(dices)["Small_straight"]
+    elif index == 10:
+        return calc_values(dices)["Large_straight"]
+    elif index == 11:
+        return calc_values(dices)["Chance"]
+    elif index == 12:
+        return calc_values(dices)["YAHTZEE"]
+
 # Suma numerelor de pe zar
 def calc_sum_dices(dices):
     sum = 0
