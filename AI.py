@@ -1,5 +1,4 @@
 from dice_module import roll_dice
-import random
 
 
 class AI:
@@ -23,19 +22,48 @@ class AI:
             "TOTAL_SCORE": -1
         }
 
-    def set_score(self, category, value):
-        category = category
-        if category in self.scores:
-            self.scores[category] = value
-            print(f"Score set AI for {category}: {value}")
-        else:
-            print(f"Invalid category for AI: {category}")
+    def get_score_state(self):
+        state = []
+        for key in self.scores:
+            if key == "TOTAL_SCORE" or key == "Sum" or key == "Bonus":
+                continue
+            if self.scores[key] == -1:
+                state.append(0)
+            else:
+                state.append(1)
+        return state
+
+    def set_score(self, index, value):
+
+        value_to_insert = value[index]
+
+        score_array = {
+            "Ones": 0,
+            "Twos": 1,
+            "Threes": 2,
+            "Fours": 3,
+            "Fives": 4,
+            "Sixes": 5,
+            "Three_of_a_kind": 6,
+            "Four_of_a_kind": 7,
+            "Full_House": 8,
+            "Small_straight": 9,
+            "Large_straight": 10,
+            "Chance": 11,
+            "YAHTZEE": 12
+        }
+
+        for key, value in score_array.items():
+            if value == index:
+                self.scores[key] = value_to_insert
+                print(f"Score set AI for {key}: {value_to_insert}")
 
     def get_score(self, category):
         return self.scores.get(category, None)
 
-    def checkScore(self, category):
-        if category in self.scores and self.scores[category] == -1:
+    def checkScore(self, index):
+        options = self.get_score_state()
+        if options[index] == 1:
             return True
         return False
 
@@ -48,14 +76,15 @@ class AI:
         rolled_dice = [roll_dice() for _ in range(num_rolls)]
         return rolled_dice, selected_dices
 
-    def chooseOption(self, score):
-        keys = [key for key in score if self.checkScore(key)]
-        if not keys:
+    def chooseOption(self, score, index):
+        invalid = self.checkScore(index)
+        if invalid:
             print("Nu mai există opțiuni cu valoarea -1 disponibile.")
             return
-        random_key = random.choice(keys)
-        random_value = score[random_key]
-        self.set_score(random_key, random_value)
+        points = []
+        for key in score:
+            points.append(score[key])
+        self.set_score(index, points)
 
     def check_sum(self):
         main_scores = ["Ones", "Twos", "Threes", "Fours", "Fives", "Sixes"]

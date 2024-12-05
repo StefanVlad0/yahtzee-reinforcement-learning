@@ -55,9 +55,9 @@ def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_
     player.check_total_score()
     ai.check_sum()
     ai.check_total_score()
-    print(player.scores)
-    print('\n')
-    print(ai.scores)
+    # print(player.scores)
+    # print('\n')
+    # print(ai.scores)
 
 
 def draw_dice(screen, values, dice_images):

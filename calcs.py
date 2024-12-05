@@ -91,8 +91,8 @@ def calc_score(counter_dices_numbers, dices):
     score["Full_House"] = 0
     score["Small_straight"] = 0
     score["Large_straight"] = 0
-    score["YAHTZEE"] = 0
     score["Chance"] = 0
+    score["YAHTZEE"] = 0
 
     # Three of a kind
     if exists_three_of_a_kind(dices) or exists_four_of_a_kind(dices):
@@ -123,7 +123,7 @@ def calc_score(counter_dices_numbers, dices):
     # Chance
     score["Chance"] = calc_sum_dices(dices)
 
-    print(dices, score)
+    # print(dices, score)
     return score
 
 

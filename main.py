@@ -8,6 +8,17 @@ from settings import Messages
 from calcs import calc_values
 from AI import AI
 from game_state import GameState
+import pickle
+
+
+def load_q_table(filename):
+    with open(filename, 'rb') as file:
+        Q_table = pickle.load(file)
+    return Q_table
+
+
+# Încărcarea Q_table din fișierul 'q_table.pkl'
+Q_table = load_q_table('q_table.pkl')
 
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
@@ -41,6 +52,15 @@ last_roll_time = pygame.time.get_ticks()
 roll_interval = 3000
 selection_start_time = None
 selectAfterRoll = False
+can_choose = False
+max_index = None
+
+
+def encode_state(scor_table, dice, rerolls_left):
+    scor_table_tuple = tuple(scor_table)
+    dice_tuple = tuple(sorted(dice))  # Sorted dices
+    return scor_table_tuple, dice_tuple, rerolls_left
+
 
 # Initialize GameState
 game_state = GameState(player, ai, dice_values, selected_dices, rolls_left, ai_rolls_left, isAITurn)
@@ -83,10 +103,12 @@ while running:
         current_time = pygame.time.get_ticks()
 
         if current_time - last_roll_time > roll_interval:
-            if ai_rolls_left == 0 and not endPlayerTurn:
+            if can_choose and not endPlayerTurn:
                 score = calc_values(selected_dices + dice_values)  # Calculate the score
-                ai.chooseOption(score)  # Pass the score to AI
+                ai.chooseOption(score, max_index)  # Pass the score to AI
                 startPlayerTurn = True
+                can_choose = False
+                max_index = None
 
     if startPlayerTurn and game_over is False:
         startPlayerTurn = False
@@ -109,6 +131,15 @@ while running:
         if current_time - last_roll_time > roll_interval:
             dice_values, selected_dices = ai.rollDice(dice_values, selected_dices)
             ai_rolls_left = ai_rolls_left - 1
+            state = encode_state(ai.get_score_state(), sorted(dice_values + selected_dices), ai_rolls_left)
+            print(state)
+            q_values = Q_table[state]
+            max_value = max(q_values)
+            max_index = q_values.index(max_value)
+            print("Actiune", max_index)
+            if max_index < 13:  # selectam din tabel
+                can_choose = True
+
             needs_recalc = True
             last_roll_time = current_time
             selectAfterRoll = True
