@@ -1,5 +1,6 @@
 import pygame
 import sys
+import random
 from draw_module import draw_screen, create_score_option_rects
 from event_module import handle_events
 import settings
@@ -38,6 +39,8 @@ startPlayerTurn = True
 isAITurn = False
 last_roll_time = pygame.time.get_ticks()
 roll_interval = 3000
+selection_start_time = None
+selectAfterRoll = False
 
 # Initialize GameState
 game_state = GameState(player, ai, dice_values, selected_dices, rolls_left, ai_rolls_left, isAITurn)
@@ -77,11 +80,13 @@ while running:
 
     if isAITurn and game_over is False:
         message = Messages.AI_TURN
+        current_time = pygame.time.get_ticks()
 
-        if ai_rolls_left == 0 and not endPlayerTurn:
-            score = calc_values(selected_dices + dice_values)  # Calculate the score
-            ai.chooseOption(score)  # Pass the score to AI
-            startPlayerTurn = True
+        if current_time - last_roll_time > roll_interval:
+            if ai_rolls_left == 0 and not endPlayerTurn:
+                score = calc_values(selected_dices + dice_values)  # Calculate the score
+                ai.chooseOption(score)  # Pass the score to AI
+                startPlayerTurn = True
 
     if startPlayerTurn and game_over is False:
         startPlayerTurn = False
@@ -100,11 +105,27 @@ while running:
     if isAITurn and game_over is False:
         endPlayerTurn = False
         current_time = pygame.time.get_ticks()
+
         if current_time - last_roll_time > roll_interval:
             dice_values, selected_dices = ai.rollDice(dice_values, selected_dices)
             ai_rolls_left = ai_rolls_left - 1
             needs_recalc = True
             last_roll_time = current_time
+            selectAfterRoll = True
+
+        if selectAfterRoll and ai_rolls_left >= 1:
+            if not selection_start_time:
+                selection_start_time = pygame.time.get_ticks()
+
+            if current_time - selection_start_time >= 1000:
+                selectAfterRoll = False
+                selection_start_time = None
+
+                numberOfSelectedDice = random.randint(0, len(dice_values))
+                for _ in range(numberOfSelectedDice):
+                    randomSelected = random.randint(0, len(dice_values) - 1)
+                    selected_dices.append(dice_values[randomSelected])
+                    dice_values.pop(randomSelected)
 
     if (needs_recalc):
         score = calc_values(selected_dices + dice_values)
