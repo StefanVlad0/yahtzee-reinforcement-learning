@@ -11,3 +11,20 @@
 # - (1 point) Extract keywords from a paragraph (for example, using these methods: https://towardsdatascience.com/keyword-extraction-process-in-python-with-natural-language-processing-nlp-d769a9069d5c). Generate one sentence for each keyword found, preserving its meaning from the original text.
 
 # - Bonus (0.25 points): The initial text is in Romanian.
+
+import os
+
+
+def load_text(source):
+    if os.path.isfile(source):
+        # read from file
+        with open(source, 'r') as file:
+            return file.read()
+    else:
+        # read from command line
+        return source
+
+
+source = input("Enter the text or file path: ")
+text = load_text(source)
+print(text)
