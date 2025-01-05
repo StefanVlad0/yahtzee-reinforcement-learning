@@ -12,57 +12,13 @@
 
 # - Bonus (0.25 points): The initial text is in Romanian.
 
-import os
 
+from text_loader import load_text
+from language_detection import detect_language
+from stylometry import stylometry_analysis
 
-def load_text(source):
-    if os.path.isfile(source):
-        # read from file
-        with open(source, 'r') as file:
-            return file.read()
-    else:
-        # read from command line
-        return source
-
-
-languages = {}
-
-
-def load_common_words(file_path):
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return [line.strip() for line in file]
-
-
-for file_name in os.listdir('lang-resources'):
-    # the words from 'lang-resources' are from https://github.com/oprogramador/most-common-words-by-language
-    if file_name.endswith(".txt"):
-        language_name = file_name.split('.')[0]
-        file_path = os.path.join('lang-resources', file_name)
-        languages[language_name] = load_common_words(file_path)
-
-
-def count_common_words(text, common_words):
-    words = text.lower().split()
-    return sum(1 for word in words if word in common_words)
-
-
-def detect_language(text):
-    text = text.lower()
-    scores = {}
-
-    for lang, common_words in languages.items():
-        scores[lang] = count_common_words(text, common_words)
-
-    if max(scores.values()) > 0:
-        detected_language = max(scores, key=scores.get)
-    else:
-        # if no common words are found, assume it's English
-        detected_language = "english"
-
-    return detected_language
-
-
-source = input("Enter the text or file path: ")
+source = input("\nEnter the text or file path: ")
 text = load_text(source)
 detected_language = detect_language(text)
-print(f"Detected language: {detected_language}")
+print(f"\nDetected language: {detected_language}")
+stylometry_analysis(text)
