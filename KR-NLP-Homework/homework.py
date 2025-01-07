@@ -13,12 +13,97 @@
 # - Bonus (0.25 points): The initial text is in Romanian.
 
 
+import random
+from nltk.corpus import wordnet
+import nltk
 from text_loader import load_text
 from language_detection import detect_language
 from stylometry import stylometry_analysis
+from rowordnet import RoWordNet
+
+nltk.download('wordnet')
+nltk.download('omw-1.4')
+
+wn = RoWordNet()
+
+
+def generate_alternative_text(text, language='en'):
+    if language == 'ro':
+        return replace_words_with_romanian_synonyms(text)
+    else:
+        words = text.split()
+        num_replacements = max(1, int(0.2 * len(words)))
+        replaced_text = []
+
+        for word in words:
+            if num_replacements > 0 and random.random() < 0.2:
+                synonym = get_synonym(word)
+                if synonym:
+                    replaced_text.append(synonym)
+                    print(f"Replaced '{word}' with '{synonym}'")
+                    num_replacements -= 1
+                else:
+                    replaced_text.append(word)
+            else:
+                replaced_text.append(word)
+        return ' '.join(replaced_text)
+
+
+def replace_words_with_romanian_synonyms(text):
+    words = text.split()
+    num_replacements = max(1, int(0.2 * len(words)))
+    replaced_text = []
+    changes = []
+
+    for word in words:
+        if num_replacements > 0:
+            synonyms = get_romanian_synonyms(word)
+            if synonyms:
+                single_word_synonyms = [syn for syn in synonyms if ' ' not in syn]
+                if single_word_synonyms:
+                    synonym = random.choice(single_word_synonyms)
+                    replaced_text.append(synonym)
+                    changes.append(f"{word} -> {synonym}")
+                    num_replacements -= 1
+                else:
+                    replaced_text.append(word)
+            else:
+                replaced_text.append(word)
+        else:
+            replaced_text.append(word)
+
+    print("\nChanges made:")
+    print("\n".join(changes))
+    return ' '.join(replaced_text)
+
+
+def get_synonym(word):
+    synsets = wordnet.synsets(word)
+    if synsets:
+        synonyms = [lemma.replace('_', ' ') for lemma in synsets[0].lemma_names() if '_' not in lemma and len(lemma) > 1]
+        if synonyms:
+            return random.choice(synonyms)
+    return None
+
+
+def get_romanian_synonyms(word):
+    synset_ids = wn.synsets(literal=word)
+    synonyms = set()
+
+    for synset_id in synset_ids:
+        synset = wn.synset(synset_id)
+        for literal in synset.literals:
+            if '_' not in literal and literal.isalpha():
+                synonyms.add(literal)
+
+    synonyms.discard(word)
+    return list(synonyms) if synonyms else None
+
 
 source = input("\nEnter the text or file path: ")
 text = load_text(source)
 detected_language = detect_language(text)
 print(f"\nDetected language: {detected_language}")
 stylometry_analysis(text)
+
+alternative_text = generate_alternative_text(text, 'ro')
