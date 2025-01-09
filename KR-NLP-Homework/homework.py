@@ -20,6 +20,10 @@ from text_loader import load_text
 from language_detection import detect_language
 from stylometry import stylometry_analysis
 from rowordnet import RoWordNet
+import yake
+from transformers import pipeline
+
+kw_extractor = yake.KeywordExtractor()
 
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -107,3 +111,17 @@ print(f"\nDetected language: {detected_language}")
 stylometry_analysis(text)
 
 alternative_text = generate_alternative_text(text, 'ro')
+
+max_ngram_size = 3
+deduplication_threshold = 0.9
+numOfKeywords = 1
+custom_kw_extractor = yake.KeywordExtractor(lan=detected_language, n=max_ngram_size, dedupLim=deduplication_threshold, top=numOfKeywords, features=None)
+keywords = custom_kw_extractor.extract_keywords(text)
+
+generator = pipeline('text-generation', model='gpt2')
+
+for kw in keywords:
+    keyword = kw[0]
+    prompt = f"Genereaza o propozitie cu cuvantul '{keyword}' in limba Romana:"
+    generated_sentence = generator(prompt, max_length=50, num_return_sequences=1)[0]['generated_text']
+    print(f"Keyword: {keyword}\nGenerated Sentence: {generated_sentence}\n")
