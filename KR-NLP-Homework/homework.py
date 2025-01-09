@@ -119,10 +119,18 @@ custom_kw_extractor = yake.KeywordExtractor(lan=detected_language, n=max_ngram_s
 keywords = custom_kw_extractor.extract_keywords(text)
 
 # pipe = pipeline("text-generation", model="readerbench/RoGPT2-base")
-pipe = pipeline("text-generation", model="utter-project/EuroLLM-1.7B")
+# pipe = pipeline("text-generation", model="utter-project/EuroLLM-1.7B")
+pipe = pipeline("text-generation", model="google/gemma-2-2b-it")
+
 
 for kw in keywords:
     keyword = kw[0]
-    prompt = f"Generează o propoziție care sa contina '{keyword}':"
-    generated_sentence = pipe(prompt, max_length=50, num_return_sequences=1)[0]['generated_text']
+    prompt = f"""Tu ești un asistent virtual dedicat să răspundă întrebărilor utilizatorilor într-un mod clar și util.
+    Te rog să citești întrebarea utilizatorului și să oferi un răspuns informativ și concis.
+    Întrebare: Generează o propoziție care sa contina '{keyword}':
+    Răspuns:"""
+    messages = [
+        {"role": "user", "content": prompt},
+    ]
+    generated_sentence = pipe(messages, max_length=200, num_return_sequences=1)[0]['generated_text']
     print(f"Keyword: {keyword}\nGenerated Sentence: {generated_sentence}\n")
