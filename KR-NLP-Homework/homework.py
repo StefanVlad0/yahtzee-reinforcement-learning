@@ -118,10 +118,10 @@ numOfKeywords = 1
 custom_kw_extractor = yake.KeywordExtractor(lan=detected_language, n=max_ngram_size, dedupLim=deduplication_threshold, top=numOfKeywords, features=None)
 keywords = custom_kw_extractor.extract_keywords(text)
 
-generator = pipeline('text-generation', model='gpt2')
+pipe = pipeline("text-generation", model="readerbench/RoGPT2-base")
 
 for kw in keywords:
     keyword = kw[0]
-    prompt = f"Genereaza o propozitie cu cuvantul '{keyword}' in limba Romana:"
-    generated_sentence = generator(prompt, max_length=50, num_return_sequences=1)[0]['generated_text']
+    prompt = f"Generează o propoziție folosind cuvântul '{keyword}':"
+    generated_sentence = pipe(prompt, max_length=50, num_return_sequences=1)[0]['generated_text']
     print(f"Keyword: {keyword}\nGenerated Sentence: {generated_sentence}\n")
