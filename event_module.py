@@ -1,6 +1,7 @@
 import pygame
 from dice_module import roll_dice
 from draw_module import create_dice_rects, create_selected_dice_rects
+from testModel import get_answer
 
 def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn, user_text, chat_log, response_text, input_box, input_active, cursor_pos):
     running = True
@@ -25,6 +26,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
             if input_active:
                 if event.key == pygame.K_RETURN:
                     chat_log.append(f"User: {user_text}")
+                    response_text = get_answer(user_text)
                     chat_log.append(f"Bot: {response_text}")
                     user_text = ''
                     cursor_pos = 0
