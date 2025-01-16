@@ -22,12 +22,11 @@ import settings
 #     ai.check_total_score()
 
 def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, scroll_offset=0):
-    # Dimensiunile și poziția box-ului pentru chat
     font = pygame.font.Font(None, 36)
+    chat_box_width = 375
+    chat_box_height = 510
     chat_box_x = 10
-    chat_box_y = settings.HEIGHT - 250  # Aproape de partea de jos a ecranului
-    chat_box_width = 400
-    chat_box_height = 200
+    chat_box_y = settings.HEIGHT // 2 - chat_box_height // 2
     y = 10
     # Desenăm background-ul box-ului pentru chat
     pygame.draw.rect(screen, settings.WHITE, (chat_box_x, chat_box_y, chat_box_width, chat_box_height))
@@ -41,15 +40,21 @@ def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, 
     # Calculăm liniile generate din chat_log
     wrapped_lines = []
     for chat in chat_log:
-        words = chat.split(" ")
+        # Separăm prefixul (dacă există) de textul efectiv
+        if chat.startswith("Bot:") or chat.startswith("User:"):
+            prefix, message = chat.split(" ", 1)
+        else:
+            prefix, message = "", chat
+        words = message.split(" ")
         line = ""
         for word in words:
             if font.size(line + word)[0] > chat_box_width - 2 * padding:
-                wrapped_lines.append(line)
+                wrapped_lines.append((prefix, line.strip()))  # Salvăm prefixul împreună cu linia
+                prefix = ""  # Prefixul apare doar pe prima linie
                 line = word + " "
             else:
                 line += word + " "
-        wrapped_lines.append(line.strip())
+        wrapped_lines.append((prefix, line.strip()))
 
     # Aplicăm scroll-ul
     start_line = max(0, len(wrapped_lines) - (chat_box_height // line_height)) - scroll_offset
@@ -57,9 +62,18 @@ def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, 
 
     # Desenăm liniile vizibile
     y = chat_box_y + padding
-    for line in visible_lines:
-        chat_surface = font.render(line, True, settings.BLACK)
-        screen.blit(chat_surface, (chat_box_x + padding, y))
+    for prefix, line in visible_lines:
+        # Desenăm prefixul în roșu (dacă există)
+        if prefix:
+            prefix_surface = font.render(prefix, True, settings.RED)
+            screen.blit(prefix_surface, (chat_box_x + padding, y))
+            prefix_width = font.size(prefix)[0]
+        else:
+            prefix_width = 0
+
+        # Desenăm restul textului în negru
+        line_surface = font.render(line, True, settings.BLACK)
+        screen.blit(line_surface, (chat_box_x + padding + prefix_width + 5, y))
         y += line_height
 
     # Desenăm input box-ul

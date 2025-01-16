@@ -69,7 +69,7 @@ font = pygame.font.Font(None, 36)
 
 screen_width = settings.WIDTH
 screen_height = settings.HEIGHT
-input_box = pygame.Rect(10, screen_height - 40, 780, 30)
+input_box = pygame.Rect(10, screen_height - 135, 375, 30)
 chat_log = []
 user_text = ''
 response_text = "string"
