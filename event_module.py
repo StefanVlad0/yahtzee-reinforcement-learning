@@ -26,6 +26,7 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
         nonlocal response_text
         response = get_answer(user_text)
         response_text = response
+        chat_log.pop()
         chat_log.append(f"Bot: {response}")
 
     for event in pygame.event.get():
@@ -35,7 +36,8 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
             if input_active:
                 if event.key == pygame.K_RETURN:
                     chat_log.append(f"User: {user_text}")
-                    response_text = "Procesăm răspunsul..."  # Mesaj temporar
+                    response_text = "Procesăm răspunsul..."
+                    chat_log.append(f"Bot: {response_text}")  # Mesaj temporar
                     ai_thread = threading.Thread(target=process_ai_response, args=(user_text,))
                     ai_thread.start()  # Pornește firul pentru AI
                     user_text = ''
@@ -56,6 +58,10 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                 elif event.key == pygame.K_SPACE:
                     user_text = user_text[:cursor_pos] + ' ' + user_text[cursor_pos:]
                     cursor_pos += 1
+                elif event.key == pygame.K_v and (pygame.key.get_mods() & pygame.KMOD_CTRL):
+                    clipboard_text = pygame.scrap.get(pygame.SCRAP_TEXT).decode('utf-8')
+                    user_text = user_text[:cursor_pos] + clipboard_text + user_text[cursor_pos:]
+                    cursor_pos += len(clipboard_text)
                 else:
                     user_text = user_text[:cursor_pos] + event.unicode + user_text[cursor_pos:]
                     cursor_pos += 1

@@ -25,16 +25,23 @@ def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos):
     font = pygame.font.Font(None, 36)
     y = 10
     for chat in chat_log:
-        chat_surface = font.render(chat, True, settings.BLACK)
+        chat_surface = font.render(chat.replace('\x00', ''), True, settings.BLACK)
+        chat_rect = chat_surface.get_rect()
+        if chat_rect.width > input_box.width:
+            chat_surface = pygame.transform.scale(chat_surface, (input_box.width, chat_rect.height))
         screen.blit(chat_surface, (10, y))
-        y += 30
+        y += chat_rect.height + 10
 
     pygame.draw.rect(screen, settings.BLACK, input_box, 2)
-    text_surface = font.render(user_text, True, settings.BLACK)
+    filtered_user_text = user_text.replace('\x00', '')  # Remove null characters
+    text_surface = font.render(filtered_user_text, True, settings.BLACK)
+    text_rect = text_surface.get_rect()
+    if text_rect.width > input_box.width - 10:
+        text_surface = pygame.transform.scale(text_surface, (input_box.width - 10, text_rect.height))
     screen.blit(text_surface, (input_box.x + 5, input_box.y + 5))
 
     if input_active:
-        cursor_x = input_box.x + 5 + font.size(user_text[:cursor_pos])[0]
+        cursor_x = input_box.x + 5 + font.size(filtered_user_text[:cursor_pos])[0]
         pygame.draw.line(screen, settings.BLACK, (cursor_x, input_box.y + 5), (cursor_x, input_box.y + 25))
 
 
