@@ -21,6 +21,22 @@ import settings
 #     player.check_total_score()
 #     ai.check_total_score()
 
+def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos):
+    font = pygame.font.Font(None, 36)
+    y = 10
+    for chat in chat_log:
+        chat_surface = font.render(chat, True, settings.BLACK)
+        screen.blit(chat_surface, (10, y))
+        y += 30
+
+    pygame.draw.rect(screen, settings.BLACK, input_box, 2)
+    text_surface = font.render(user_text, True, settings.BLACK)
+    screen.blit(text_surface, (input_box.x + 5, input_box.y + 5))
+
+    if input_active:
+        cursor_x = input_box.x + 5 + font.size(user_text[:cursor_pos])[0]
+        pygame.draw.line(screen, settings.BLACK, (cursor_x, input_box.y + 5), (cursor_x, input_box.y + 25))
+
 
 def create_score_option_rects():
     table_width = 375
@@ -44,13 +60,14 @@ def create_score_option_rects():
     return score_option_rects
 
 
-def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player, ai, isAITurn):
+def draw_screen(screen, values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player, ai, isAITurn, chat_log, user_text, input_box, input_active, cursor_pos):
     screen.fill(settings.GREEN)
     draw_dice(screen, values, dice_images)
     draw_button(screen, roll_button, hover_button, clicked_button, button_disabled)
     draw_selected_dices(screen, selected_dices, dice_images)
     draw_score_table(screen, score, player, isAITurn, ai)
     draw_info(screen, message)
+    draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos)
     player.check_sum()
     player.check_total_score()
     ai.check_sum()

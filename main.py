@@ -16,9 +16,9 @@ def load_q_table(filename):
         Q_table = pickle.load(file)
     return Q_table
 
-
 # Încărcarea Q_table din fișierul 'q_table.pkl'
-Q_table = load_q_table('q_table.pkl')
+# Q_table = load_q_table('q_table.pkl')
+
 
 pygame.init()
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]  # initializare imagini
@@ -57,6 +57,23 @@ max_index = None
 dicesToReroll = None
 
 
+pygame.display.set_caption("Chat Interface")
+
+font = pygame.font.Font(None, 36)
+
+
+screen_width = settings.WIDTH
+screen_height = settings.HEIGHT
+input_box = pygame.Rect(10, screen_height - 40, 780, 30)
+chat_log = []
+user_text = ''
+response_text = "string"
+input_active = False
+cursor_pos = 0
+
+clock = pygame.time.Clock()
+
+
 def encode_state(scor_table, dice, rerolls_left):
     scor_table_tuple = tuple(scor_table)
     dice_tuple = tuple(sorted(dice))  # Sorted dices
@@ -75,8 +92,7 @@ game_state = GameState(player, ai, dice_values, selected_dices, rolls_left, ai_r
 game_over = False
 running = True
 while running:
-    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn)
-
+    running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn, user_text, chat_log, input_active, cursor_pos = handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn, user_text, chat_log, response_text, input_box, input_active, cursor_pos)
     # Update GameState
     game_state.update_dice_values(dice_values)
     game_state.update_selected_dices(selected_dices)
@@ -177,7 +193,7 @@ while running:
         score = calc_values(selected_dices + dice_values)
         needs_recalc = False
 
-    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player, ai, isAITurn)
+    draw_screen(screen, dice_values, dice_images, roll_button, hover_button, clicked_button, selected_dices, button_disabled, message, score, player, ai, isAITurn, chat_log, user_text, input_box, input_active, cursor_pos)
 
     pygame.display.flip()
     clock.tick(60)

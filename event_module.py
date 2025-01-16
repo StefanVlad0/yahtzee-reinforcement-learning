@@ -2,8 +2,7 @@ import pygame
 from dice_module import roll_dice
 from draw_module import create_dice_rects, create_selected_dice_rects
 
-
-def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn):
+def handle_events(dice_values, roll_button, clicked_button, selected_dices, rolls_left, button_disabled, needs_recalc, score_option_rects, score, player, endPlayerTurn, isAITurn, user_text, chat_log, response_text, input_box, input_active, cursor_pos):
     running = True
     mouse_pos = pygame.mouse.get_pos()
     button_disabled = True if rolls_left == 0 or isAITurn else False
@@ -23,14 +22,45 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE and not isAITurn:
-                if rolls_left:
-                    dice_values = [roll_dice() for _ in range(5 - len(selected_dices))]
-                    rolls_left = rolls_left - 1
-                    needs_recalc = True
-            if event.key == pygame.K_ESCAPE:
-                running = False
+            if input_active:
+                if event.key == pygame.K_RETURN:
+                    chat_log.append(f"User: {user_text}")
+                    chat_log.append(f"Bot: {response_text}")
+                    user_text = ''
+                    cursor_pos = 0
+                elif event.key == pygame.K_BACKSPACE:
+                    if cursor_pos > 0:
+                        user_text = user_text[:cursor_pos-1] + user_text[cursor_pos:]
+                        cursor_pos -= 1
+                elif event.key == pygame.K_DELETE:
+                    if cursor_pos < len(user_text):
+                        user_text = user_text[:cursor_pos] + user_text[cursor_pos+1:]
+                elif event.key == pygame.K_LEFT:
+                    if cursor_pos > 0:
+                        cursor_pos -= 1
+                elif event.key == pygame.K_RIGHT:
+                    if cursor_pos < len(user_text):
+                        cursor_pos += 1
+                elif event.key == pygame.K_SPACE:
+                    user_text = user_text[:cursor_pos] + ' ' + user_text[cursor_pos:]
+                    cursor_pos += 1
+                else:
+                    user_text = user_text[:cursor_pos] + event.unicode + user_text[cursor_pos:]
+                    cursor_pos += 1
+            else:
+                if event.key == pygame.K_SPACE and not isAITurn:
+                    if rolls_left:
+                        dice_values = [roll_dice() for _ in range(5 - len(selected_dices))]
+                        rolls_left = rolls_left - 1
+                        needs_recalc = True
+                elif event.key == pygame.K_ESCAPE:
+                    running = False
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            if input_box.collidepoint(event.pos):
+                input_active = True
+            else:
+                input_active = False
+
             if roll_button.collidepoint(event.pos) and not isAITurn:
                 clicked_button = True
 
@@ -63,4 +93,4 @@ def handle_events(dice_values, roll_button, clicked_button, selected_dices, roll
                     rolls_left = rolls_left - 1
                     needs_recalc = True
 
-    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn
+    return running, dice_values, hover_button, clicked_button, selected_dices, dice_values, rolls_left, button_disabled, needs_recalc, endPlayerTurn, isAITurn, user_text, chat_log, input_active, cursor_pos
