@@ -1,0 +1,3 @@
+Yahtzee este un joc de zaruri pentru 2-6 jucători. Fiecare jucător are 13 runde pentru a-și maximiza scorul. 
+Obiectivul este să obții combinații specifice, cum ar fi Full House, Șir Mic, Șir Mare, etc.
+Un Yahtzee este o combinație de cinci zaruri identice, care oferă cel mai mare punctaj.
