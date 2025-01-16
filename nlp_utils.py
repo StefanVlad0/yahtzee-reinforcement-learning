@@ -29,6 +29,7 @@ def generate_dynamic_response(prompt, max_length=250, temperature=0.7):
 
     if prompt in response:
         response = response.replace(prompt, "").strip()
+        
     return response
 
 
