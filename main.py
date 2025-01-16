@@ -16,8 +16,9 @@ def load_q_table(filename):
         Q_table = pickle.load(file)
     return Q_table
 
+
 # Încărcarea Q_table din fișierul 'q_table.pkl'
-# Q_table = load_q_table('q_table.pkl')
+Q_table = load_q_table('q_table.pkl')
 
 
 pygame.init()
