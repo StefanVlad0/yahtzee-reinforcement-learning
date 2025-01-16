@@ -21,21 +21,61 @@ import settings
 #     player.check_total_score()
 #     ai.check_total_score()
 
-def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos):
-    font = pygame.font.Font(None, 36)
-    y = 10
-    for chat in chat_log:
-        chat_surface = font.render(chat, True, settings.BLACK)
-        screen.blit(chat_surface, (10, y))
-        y += 30
+def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, scroll_offset=0):
+    # Dimensiunile și poziția box-ului pentru chat
+    chat_box_x = 10
+    chat_box_y = settings.HEIGHT - 250  # Aproape de partea de jos a ecranului
+    chat_box_width = 400
+    chat_box_height = 200
 
+    # Desenăm background-ul box-ului pentru chat
+    pygame.draw.rect(screen, settings.WHITE, (chat_box_x, chat_box_y, chat_box_width, chat_box_height))
+    pygame.draw.rect(screen, settings.BLACK, (chat_box_x, chat_box_y, chat_box_width, chat_box_height), 2)  # Border negru
+
+    # Fontul pentru text
+    font = pygame.font.Font(None, 24)
+    line_height = 20
+    padding = 10
+
+    # Calculăm liniile generate din chat_log
+    wrapped_lines = []
+    for chat in chat_log:
+        words = chat.split(" ")
+        line = ""
+        for word in words:
+            if font.size(line + word)[0] > chat_box_width - 2 * padding:
+                wrapped_lines.append(line)
+                line = word + " "
+            else:
+                line += word + " "
+        wrapped_lines.append(line.strip())
+
+    # Aplicăm scroll-ul
+    start_line = max(0, len(wrapped_lines) - (chat_box_height // line_height)) - scroll_offset
+    visible_lines = wrapped_lines[start_line:start_line + (chat_box_height // line_height)]
+
+    # Desenăm liniile vizibile
+    y = chat_box_y + padding
+    for line in visible_lines:
+        chat_surface = font.render(line, True, settings.BLACK)
+        screen.blit(chat_surface, (chat_box_x + padding, y))
+        y += line_height
+
+    # Desenăm input box-ul
     pygame.draw.rect(screen, settings.BLACK, input_box, 2)
     text_surface = font.render(user_text, True, settings.BLACK)
     screen.blit(text_surface, (input_box.x + 5, input_box.y + 5))
 
+    # Desenăm cursorul dacă input-ul este activ
     if input_active:
         cursor_x = input_box.x + 5 + font.size(user_text[:cursor_pos])[0]
         pygame.draw.line(screen, settings.BLACK, (cursor_x, input_box.y + 5), (cursor_x, input_box.y + 25))
+
+    # Opțional: scroll bar
+    # if len(wrapped_lines) > chat_box_height // line_height:
+    #     scroll_bar_height = (chat_box_height / len(wrapped_lines)) * chat_box_height
+    #     scroll_bar_y = chat_box_y + (scroll_offset / len(wrapped_lines)) * chat_box_height
+    #     pygame.draw.rect(screen, settings.BLACK, (chat_box_x + chat_box_width - 10, scroll_bar_y, 5, scroll_bar_height))
 
 
 def create_score_option_rects():
