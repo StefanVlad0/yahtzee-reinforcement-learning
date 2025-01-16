@@ -23,11 +23,12 @@ import settings
 
 def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, scroll_offset=0):
     # Dimensiunile și poziția box-ului pentru chat
+    font = pygame.font.Font(None, 36)
     chat_box_x = 10
     chat_box_y = settings.HEIGHT - 250  # Aproape de partea de jos a ecranului
     chat_box_width = 400
     chat_box_height = 200
-
+    y = 10
     # Desenăm background-ul box-ului pentru chat
     pygame.draw.rect(screen, settings.WHITE, (chat_box_x, chat_box_y, chat_box_width, chat_box_height))
     pygame.draw.rect(screen, settings.BLACK, (chat_box_x, chat_box_y, chat_box_width, chat_box_height), 2)  # Border negru
@@ -63,12 +64,16 @@ def draw_chat(screen, chat_log, user_text, input_box, input_active, cursor_pos, 
 
     # Desenăm input box-ul
     pygame.draw.rect(screen, settings.BLACK, input_box, 2)
-    text_surface = font.render(user_text, True, settings.BLACK)
+    filtered_user_text = user_text.replace('\x00', '')  # Remove null characters
+    text_surface = font.render(filtered_user_text, True, settings.BLACK)
+    text_rect = text_surface.get_rect()
+    if text_rect.width > input_box.width - 10:
+        text_surface = pygame.transform.scale(text_surface, (input_box.width - 10, text_rect.height))
     screen.blit(text_surface, (input_box.x + 5, input_box.y + 5))
 
     # Desenăm cursorul dacă input-ul este activ
     if input_active:
-        cursor_x = input_box.x + 5 + font.size(user_text[:cursor_pos])[0]
+        cursor_x = input_box.x + 5 + font.size(filtered_user_text[:cursor_pos])[0]
         pygame.draw.line(screen, settings.BLACK, (cursor_x, input_box.y + 5), (cursor_x, input_box.y + 25))
 
     # Opțional: scroll bar

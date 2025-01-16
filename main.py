@@ -29,6 +29,10 @@ settings.WIDTH, settings.HEIGHT = screen_info.current_w, screen_info.current_h
 
 screen = pygame.display.set_mode((settings.WIDTH, settings.HEIGHT))
 pygame.display.set_caption("AI-Project")
+
+pygame.scrap.init()  # Initialize the scrap module for clipboard operations
+pygame.scrap.set_mode(pygame.SCRAP_CLIPBOARD)
+
 dice_values = []
 dice_images = [pygame.image.load(f"{i}.png") for i in range(1, 7)]
 clock = pygame.time.Clock()
