@@ -58,7 +58,6 @@ nosetests.xml
 *.psd
 *.ai
 *.zip
-*.rar
 *.7z
 
 # Exclude fișierele de configurare și cache locale

@@ -44,7 +44,7 @@ pip install -r requirements.txt
 ```
 
 ### Step 3: Run the game
-Start the game:
+First, unzip the `q_table.rar` file, and then run the following comand:
 ```bash
 python main.py
 ```
