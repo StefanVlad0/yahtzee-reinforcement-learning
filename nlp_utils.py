@@ -12,7 +12,7 @@ model = AutoModelForCausalLM.from_pretrained(
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-def generate_dynamic_response(prompt, max_length=250, temperature=0.7):
+def generate_dynamic_response(prompt, max_length=220, temperature=0.7):
     inputs = tokenizer(prompt, return_tensors="pt", max_length=512, truncation=True).to("cuda")
 
     output = model.generate(
@@ -39,7 +39,7 @@ def generate_response(intent, user_question):
             rules = file.read()
         prompt = (
             f"Userul întreabă: {user_question}\n\n"
-            f"Răspunsul trebuie să fie clar și prietenos, maxim 2 randuri, bazat pe regulile:\n{rules}\n\n"
+            f"Răspunsul trebuie să fie clar și prietenos, maxim 2 randuri, nu folosi emoji sau formatari ale textului, bazat pe regulile:\n{rules}\n\n"
             f"Răspunde detaliat și pe înțelesul tuturor."
         )
         return generate_dynamic_response(prompt)

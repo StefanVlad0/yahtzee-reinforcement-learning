@@ -3,6 +3,8 @@
 This project was created by [Vlad Ștefan](https://github.com/StefanVlad0), [Ștefan Huțan](https://github.com/hutanstefan) and [Anghel Craciun](https://github.com/Anghel23)
 
 
+![Yahtzee demo](pics/screenshot.png)
+
 ## Project Overview
 
 This project implements a **Q-Learning agent** to play the **Yahtzee** card game.
