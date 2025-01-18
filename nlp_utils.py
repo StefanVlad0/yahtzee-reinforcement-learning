@@ -13,7 +13,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
 def generate_dynamic_response(prompt, max_length=220, temperature=0.7):
-    inputs = tokenizer(prompt, return_tensors="pt", max_length=512, truncation=True).to("cuda")
+    inputs = tokenizer(prompt, return_tensors="pt", max_length=512, truncation=True).to(device)
 
     output = model.generate(
         inputs["input_ids"],
